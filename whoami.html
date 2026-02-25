@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>강준범 | 임베디드 개발자</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --paper: #fffffe;
+      --ink: #1a1814;
+      --ink-light: #4a4640;
+      --ink-muted: #8a8480;
+      --rule: #d0c8bc;
+      --rule-light: #e8e2d8;
+      --accent: #1c3d5a;
+      --accent-warm: #7a3030;
+      --accent-light: #e6edf4;
+      --tag-bg: #eeeae4;
+      --primary-chip-bg: #dde6ef;
+      --primary-chip-border: #a8c0d8;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    /* ── TOP RULE ── */
+    .top-rule {
+      width: 100%; height: 5px;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-warm) 50%, var(--accent) 100%);
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-inner {
+      max-width: 880px; margin: 0 auto;
+      padding: 0 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      height: 52px;
+    }
+    .nav-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem; color: var(--accent); letter-spacing: 0.05em;
+    }
+    .nav-links { display: flex; gap: 0; list-style: none; }
+    .nav-links a {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 0.76rem; color: var(--ink-muted); text-decoration: none;
+      padding: 0 14px; height: 52px; display: flex; align-items: center;
+      border-right: 1px solid var(--rule-light);
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links li:first-child a { border-left: 1px solid var(--rule-light); }
+    .nav-links a:hover { color: var(--accent); background: var(--accent-light); }
+
+    /* ── HERO ── */
+    #hero { background: var(--paper); border-bottom: 1px solid var(--rule); }
+    .hero-inner {
+      max-width: 880px; margin: 0 auto;
+      padding: 60px 40px 52px;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 32px; align-items: start;
+    }
+    .hero-eyebrow {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.72rem; color: var(--accent-warm);
+      letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 14px;
+    }
+    h1 {
+      font-family: 'EB Garamond', serif; font-weight: 600;
+      font-size: clamp(2.6rem, 5.5vw, 3.8rem);
+      line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 6px;
+    }
+    .hero-role {
+      font-family: 'EB Garamond', serif; font-style: italic;
+      font-size: 1.1rem; color: var(--accent); margin-bottom: 22px; letter-spacing: 0.02em;
+    }
+    .hero-desc {
+      color: var(--ink-light); font-size: 0.91rem; line-height: 1.9; max-width: 540px;
+    }
+    .hero-highlight {
+      display: inline; font-style: italic;
+      border-bottom: 1px solid var(--accent-warm);
+      color: var(--ink); padding-bottom: 1px;
+    }
+    .hero-meta {
+      text-align: right; font-family: 'Source Code Pro', monospace;
+      font-size: 0.74rem; color: var(--ink-muted); line-height: 2.2;
+      white-space: nowrap; padding-top: 4px;
+    }
+    .hero-meta a { color: var(--accent); text-decoration: none; }
+    .hero-meta a:hover { text-decoration: underline; }
+    .hero-divider { max-width: 880px; margin: 0 auto; padding: 0 40px; }
+    .hero-divider hr { border: none; border-top: 1px solid var(--rule-light); }
+
+    /* ── MAIN ── */
+    main { max-width: 880px; margin: 0 auto; padding: 0 40px 80px; }
+
+    /* ── SECTION ── */
+    .section { padding-top: 48px; border-top: 1px solid var(--rule); margin-top: 48px; }
+    .section-header { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
+    .section-num {
+      font-family: 'Source Code Pro', monospace;
+      font-size: 0.66rem; color: var(--accent-warm); letter-spacing: 0.1em;
+    }
+    .section-title {
+      font-family: 'EB Garamond', serif; font-size: 1.55rem; font-weight: 600;
+      color: var(--ink); letter-spacing: 0.01em;
+    }
+
+    /* ── SKILLS ── */
+    .skills-table { width: 100%; border-collapse: collapse; }
+    .skills-table tr { border-bottom: 1px solid var(--rule-light); }
+    .skills-table tr:last-child { border-bottom: none; }
+    .skills-table td { padding: 13px 0; vertical-align: top; }
+    .skills-table td:first-child {
+      font-family: 'Source Code Pro', monospace; font-size: 0.76rem;
+      color: var(--ink-muted); letter-spacing: 0.05em;
+      width: 170px; padding-right: 24px; padding-top: 15px;
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip {
+      font-family: 'Source Code Pro', monospace; font-size: 0.72rem;
+      color: var(--ink-light); background: var(--tag-bg);
+      border: 1px solid var(--rule); padding: 3px 10px;
+      border-radius: 2px; letter-spacing: 0.02em;
+    }
+    .chip.primary {
+      background: var(--primary-chip-bg);
+      border-color: var(--primary-chip-border);
+      color: var(--accent); font-weight: 500;
+    }
+    .skill-note {
+      font-size: 0.75rem; color: var(--ink-muted); font-style: italic;
+      margin-top: 6px; font-family: 'Noto Serif KR', serif;
+    }
+
+    /* ── PROJECT ── */
+    .project-item { margin-bottom: 0; }
+    .project-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 6px; gap: 16px; flex-wrap: wrap;
+    }
+    .project-name {
+      font-family: 'EB Garamond', serif; font-size: 1.1rem; font-weight: 600;
+    }
+    .project-meta {
+      font-family: 'Source Code Pro', monospace; font-size: 0.7rem;
+      color: var(--ink-muted); white-space: nowrap;
+    }
+    .project-link {
+      font-family: 'Source Code Pro', monospace; font-size: 0.7rem;
+      color: var(--accent); text-decoration: none; letter-spacing: 0.05em;
+    }
+    .project-link:hover { text-decoration: underline; }
+    .project-subtitle {
+      color: var(--ink-light); font-size: 0.88rem; line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .project-detail-label {
+      font-family: 'Source Code Pro', monospace; font-size: 0.66rem;
+      color: var(--ink-muted); letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 6px; margin-top: 14px;
+    }
+    .bullet-list { list-style: none; }
+    .bullet-list li {
+      padding-left: 1.2em; position: relative;
+      font-size: 0.88rem; color: var(--ink-light); line-height: 1.85;
+      margin-bottom: 3px;
+    }
+    .bullet-list li::before { content: '—'; position: absolute; left: 0; color: var(--rule); }
+
+    /* ── EDUCATION ── */
+    .edu-item { display: grid; grid-template-columns: 170px 1fr; gap: 0 24px; margin-bottom: 32px; }
+    .edu-item:last-child { margin-bottom: 0; }
+    .edu-left {
+      text-align: right; font-family: 'Source Code Pro', monospace;
+      font-size: 0.72rem; color: var(--ink-muted); padding-top: 3px; line-height: 1.7;
+    }
+    .edu-right { border-left: 2px solid var(--rule-light); padding-left: 24px; position: relative; }
+    .edu-right::before {
+      content: ''; position: absolute; left: -5px; top: 7px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--paper); border: 2px solid var(--accent);
+    }
+    .edu-school { font-family: 'EB Garamond', serif; font-size: 1.1rem; font-weight: 600; }
+    .edu-dept { font-size: 0.85rem; color: var(--accent); font-style: italic; font-family: 'EB Garamond', serif; }
+    .edu-info { font-size: 0.83rem; color: var(--ink-muted); font-family: 'Source Code Pro', monospace; margin-top: 3px; }
+
+    /* ── PUBLICATION ── */
+    .pub-item {
+      padding: 16px 0; border-bottom: 1px solid var(--rule-light);
+      display: grid; grid-template-columns: 170px 1fr; gap: 0 24px;
+    }
+    .pub-item:last-child { border-bottom: none; }
+    .pub-date {
+      font-family: 'Source Code Pro', monospace; font-size: 0.72rem;
+      color: var(--ink-muted); padding-top: 3px;
+    }
+    .pub-right {}
+    .pub-title { font-size: 0.92rem; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .pub-venue {
+      font-family: 'Source Code Pro', monospace; font-size: 0.71rem;
+      color: var(--ink-muted); letter-spacing: 0.03em;
+    }
+    .pub-badge {
+      display: inline-block; font-family: 'Source Code Pro', monospace; font-size: 0.65rem;
+      background: var(--accent); color: #fff; padding: 1px 8px; border-radius: 2px;
+      margin-left: 8px; vertical-align: middle; letter-spacing: 0.04em;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-item { display: grid; grid-template-columns: 170px 1fr; gap: 0 24px; margin-bottom: 36px; }
+    .exp-item:last-child { margin-bottom: 0; }
+    .exp-left { text-align: right; padding-top: 3px; }
+    .exp-period { font-family: 'Source Code Pro', monospace; font-size: 0.72rem; color: var(--ink-muted); display: block; line-height: 1.7; }
+    .exp-right { border-left: 2px solid var(--rule-light); padding-left: 24px; position: relative; }
+    .exp-right::before {
+      content: ''; position: absolute; left: -5px; top: 7px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--paper); border: 2px solid var(--accent);
+    }
+    .exp-org { font-family: 'EB Garamond', serif; font-size: 1.12rem; font-weight: 600; margin-bottom: 2px; }
+    .exp-role {
+      font-size: 0.82rem; color: var(--accent); margin-bottom: 10px;
+      font-style: italic; font-family: 'EB Garamond', serif;
+    }
+
+    /* ── CERT ── */
+    .cert-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+    .cert-item {
+      background: var(--tag-bg); border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent); padding: 13px 16px;
+    }
+    .cert-name { font-size: 0.88rem; font-weight: 500; margin-bottom: 3px; }
+    .cert-meta { font-family: 'Source Code Pro', monospace; font-size: 0.67rem; color: var(--ink-muted); }
+
+    /* ── LANGUAGE ── */
+    .lang-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    .lang-table thead tr { border-bottom: 2px solid var(--rule); }
+    .lang-table thead th {
+      font-family: 'Source Code Pro', monospace; font-size: 0.68rem;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted);
+      padding: 0 0 10px; text-align: left; font-weight: 400;
+    }
+    .lang-table tbody tr { border-bottom: 1px solid var(--rule-light); }
+    .lang-table tbody tr:last-child { border-bottom: none; }
+    .lang-table tbody td { padding: 12px 0; color: var(--ink-light); }
+    .lang-table tbody td:first-child { font-weight: 500; color: var(--ink); width: 80px; }
+    .lang-table tbody td:nth-child(2) { font-family: 'Source Code Pro', monospace; font-size: 0.8rem; width: 120px; }
+    .lang-score {
+      display: inline-block; background: var(--accent-light);
+      border: 1px solid var(--primary-chip-border);
+      color: var(--accent); font-family: 'Source Code Pro', monospace;
+      font-size: 0.78rem; padding: 2px 10px; border-radius: 2px;
+    }
+
+    /* ── CERTIFIED PROGRAM ── */
+    .program-item {
+      display: grid; grid-template-columns: 170px 1fr; gap: 0 24px;
+      padding: 14px 0; border-bottom: 1px solid var(--rule-light);
+    }
+    .program-item:last-child { border-bottom: none; }
+    .program-period { font-family: 'Source Code Pro', monospace; font-size: 0.72rem; color: var(--ink-muted); }
+    .program-name { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+    .program-org { font-family: 'Source Code Pro', monospace; font-size: 0.71rem; color: var(--ink-muted); }
+    .program-badge {
+      display: inline-block; font-family: 'Source Code Pro', monospace;
+      font-size: 0.63rem; background: var(--accent-warm); color: #fff;
+      padding: 1px 7px; border-radius: 2px; margin-left: 8px; vertical-align: middle;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); border: 1px solid var(--rule); }
+    .contact-item { padding: 18px 22px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    .contact-label { font-family: 'Source Code Pro', monospace; font-size: 0.63rem; color: var(--ink-muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 5px; }
+    .contact-value { font-size: 0.86rem; color: var(--ink); }
+    .contact-value a { color: var(--accent); text-decoration: none; }
+    .contact-value a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--paper); border-top: 1px solid var(--rule);
+      text-align: center; padding: 22px;
+      font-family: 'Source Code Pro', monospace; font-size: 0.68rem;
+      color: var(--ink-muted); letter-spacing: 0.08em;
+    }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero-inner { grid-template-columns: 1fr; padding: 36px 20px 28px; }
+      .hero-meta { text-align: left; }
+      main { padding: 0 20px 60px; }
+      .hero-divider { padding: 0 20px; }
+      .exp-item, .edu-item, .pub-item, .program-item {
+        grid-template-columns: 1fr; gap: 4px 0;
+      }
+      .exp-left, .edu-left { text-align: left; }
+      .exp-right, .edu-right { border-left: none; padding-left: 0; }
+      .exp-right::before, .edu-right::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-rule"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-name">Kang Junbeom · 강준범</span>
+    <ul class="nav-links">
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">프로젝트</a></li>
+      <li><a href="#education">학력</a></li>
+      <li><a href="#publication">논문</a></li>
+      <li><a href="#experience">경력</a></li>
+      <li><a href="#certs">자격증</a></li>
+      <li><a href="#language">어학</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-inner">
+    <div>
+      <p class="hero-eyebrow">Embedded Software Engineer · GPGPU</p>
+      <h1>강준범</h1>
+      <p class="hero-role">임베디드 개발자 / 고성능 컴퓨팅</p>
+      <p class="hero-desc">
+        코드를 빨리 짜는 것보다, 튼튼한 설계를 통해 안전하고 정밀한 프로그램을 완성하는 것을 우선으로 고려하는 개발자입니다.
+        대표적인 성과로는 <span class="hero-highlight">CUDA cuSOLVER cusolverDnSpotrf() 커널 대비 최대 91.46% 가속화</span>와
+        <span class="hero-highlight">0.0000534%의 오차율</span>을 보이는 숄레스키 분해 알고리즘을 구현한 경험이 있습니다.
+      </p>
+    </div>
+    <div class="hero-meta">
+      <div><a href="https://github.com/KangJunBeom" target="_blank">깃허브 : github.com/KangJunBeom</a></div>
+      <div><a href="mailto:sorabol623@gmail.com">이메일 : sorabol623@gmail.com</a></div>
+    </div>
+  </div>
+  <div class="hero-divider"><hr/></div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <!-- SKILLS -->
+  <div class="section reveal" id="skills">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">기술 스택 / Skills</h2>
+    </div>
+    <table class="skills-table">
+      <tr>
+        <td>Major — Language</td>
+        <td>
+          <div class="skill-chips">
+            <span class="chip primary">C</span>
+            <span class="chip primary">C++</span>
+          </div>
+          <p class="skill-note">주력 언어</p>
+        </td>
+      </tr>
+      <tr>
+        <td>Major — API</td>
+        <td>
+          <div class="skill-chips">
+            <span class="chip primary">CUDA</span>
+          </div>
+          <p class="skill-note">Computed Unified Device Architecture</p>
+        </td>
+      </tr>
+      <tr>
+        <td>Knowledgeable</td>
+        <td>
+          <div class="skill-chips">
+            <span class="chip">C#</span>
+            <span class="chip">Python</span>
+            <span class="chip">OpenMP</span>
+            <span class="chip">OpenCL</span>
+            <span class="chip">PyTorch</span>
+            <span class="chip">WPF</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>OS / Tools</td>
+        <td>
+          <div class="skill-chips">
+            <span class="chip">Windows</span>
+            <span class="chip">WSL</span>
+            <span class="chip">Linux</span>
+            <span class="chip">Git</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section reveal" id="projects">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">프로젝트</h2>
+    </div>
+    <div class="project-item">
+      <div class="project-header">
+        <span class="project-name">Hybrid Single Precision Cholesky Decomposition Kernel</span>
+        <div style="display:flex; gap:16px; align-items:center;">
+          <span class="project-meta">2025.09 — 2025.12</span>
+          <a href="https://github.com/KangJunBeom/Hybrid-Swift-Spotrf-CUDA" target="_blank" class="project-link">↗ GitHub</a>
+        </div>
+      </div>
+      <p class="project-subtitle">
+        NVIDIA GPGPU Shared Memory를 활용한 단일 정밀도 양의 정부호 행렬에 대한 숄레스키 분해 커널.
+        행렬 크기에 따른 공유 메모리 가용성 차이 해결을 위해 Hybrid 구조로 구현.
+      </p>
+      <p class="project-detail-label">주요 구현 내용</p>
+      <ul class="bullet-list">
+        <li>하이브리드 알고리즘 구현을 통한 행렬 크기별 최적화 알고리즘 적용</li>
+        <li>Bank Conflict 회피와 GPGPU 공유 메모리 자원 활용 극대화</li>
+        <li>수치 안정성 고려 및 프로그램 실행 결과에 대한 체계적 검증 진행</li>
+        <li>cuSOLVER cusolverDnSpotrf() 대비 최대 <strong>91.46% 가속화</strong>, 오차율 <strong>0.0000534%</strong> 달성</li>
+      </ul>
+      <p class="project-detail-label">기술 스택</p>
+      <div class="skill-chips">
+        <span class="chip primary">C++</span>
+        <span class="chip primary">CUDA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section reveal" id="education">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">학력</h2>
+    </div>
+    <div class="edu-item">
+      <div class="edu-left">2024. 03 — 2026. 02</div>
+      <div class="edu-right">
+        <div class="edu-school">건국대학교 (서울)</div>
+        <div class="edu-dept">컴퓨터공학과 석사</div>
+        <div class="edu-info">학점 : 4.0 / 4.5</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-left">2017. 03 — 2024. 02</div>
+      <div class="edu-right">
+        <div class="edu-school">건국대학교 (서울)</div>
+        <div class="edu-dept">컴퓨터공학과 학사</div>
+        <div class="edu-info">학점 : 3.3 / 4.5 &nbsp;(전공 3.47)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PUBLICATION -->
+  <div class="section reveal" id="publication">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">논문 / Publication</h2>
+    </div>
+    <div class="pub-item">
+      <div class="pub-date">2026. 01. 10</div>
+      <div class="pub-right">
+        <div class="pub-title">
+          CUDA 기반 GPGPU 공유 메모리를 활용한 숄레스키 분해 알고리즘 구현
+          <span class="pub-badge">석사학위논문</span>
+        </div>
+        <div class="pub-venue">건국대학교 (서울) 컴퓨터공학전공</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-date">2025. 11. 06</div>
+      <div class="pub-right">
+        <div class="pub-title">CUDA 기반 공유 메모리를 활용한 병렬 숄레스키 분해 구현</div>
+        <div class="pub-venue">한국정보처리학회 학술대회논문집 32권 2호</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-date">2025. 05. 29</div>
+      <div class="pub-right">
+        <div class="pub-title">GPGPU를 활용한 PNG 압축 필터링 가속화</div>
+        <div class="pub-venue">한국정보처리학회 학술대회논문집 32권 1호</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="section reveal" id="experience">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">경력사항</h2>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <span class="exp-period">2024. 02 — 2026. 02</span>
+      </div>
+      <div class="exp-right">
+        <div class="exp-org">건국대학교 수업조교</div>
+        <div class="exp-role">건국대학교 서울캠퍼스 컴퓨터공학부</div>
+        <ul class="bullet-list">
+          <li>담당 과목 : 컴퓨터구조, 컴퓨터회로, 병렬프로그래밍, 졸업프로젝트</li>
+          <li>전반적인 실습 수업 및 학기말 최종 프로젝트 기획 / 구현 / 채점 진행</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-left">
+        <span class="exp-period">2019. 04 — 2021. 02</span>
+      </div>
+      <div class="exp-right">
+        <div class="exp-org">대한민국 공군 병장 만기전역</div>
+        <div class="exp-role">국군지휘통신사령부 제3정보통신단 제80정보통신운용대대 체계지원대</div>
+        <ul class="bullet-list">
+          <li>합참 / 국방부 내 KJCCS / AKJCCS / JFOS-K 관제 및 기기 운용 지원</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CERTIFIED PROGRAM -->
+  <div class="section reveal" id="certprogram">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">교육 이수</h2>
+    </div>
+    <div class="program-item">
+      <div class="program-period">2025. 12 — 2026. 06</div>
+      <div>
+        <div class="program-name">LIG넥스원 The SSEN 임베디드SW 스쿨 <span class="program-badge">진행 중</span></div>
+        <div class="program-org">통합심사과정훈련</div>
+      </div>
+    </div>
+    <div class="program-item">
+      <div class="program-period">2026. 01 — 2026. 02</div>
+      <div>
+        <div class="program-name">방위산업 실무 : 핵심기술 이해 및 신뢰도확보 설계</div>
+        <div class="program-org">K-디지털 기초역량훈련 · 수료</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CERTS -->
+  <div class="section reveal" id="certs">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">자격증</h2>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-item">
+        <div class="cert-name">정보처리기사</div>
+        <div class="cert-meta">한국산업인력공단 · 2025. 06. 13</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-name">컴퓨터활용능력 2급</div>
+        <div class="cert-meta">대한상공회의소</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-name">워드프로세서 1급</div>
+        <div class="cert-meta">대한상공회의소 · 2010. 04. 16</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-name">운전면허 1종 보통</div>
+        <div class="cert-meta">경기북부경찰청 · 2021. 02. 15</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LANGUAGE -->
+  <div class="section reveal" id="language">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">어학 성적</h2>
+    </div>
+    <table class="lang-table">
+      <thead>
+        <tr>
+          <th>언어</th>
+          <th>시험</th>
+          <th>점수 / 등급</th>
+          <th>취득일</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>영어</td>
+          <td>TOEIC</td>
+          <td><span class="lang-score">925 / 990</span></td>
+          <td>2025. 02</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<footer>
+  <p>© 2026 강준범 (Kang Junbeom) · Built with HTML/CSS & GitHub Pages</p>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
